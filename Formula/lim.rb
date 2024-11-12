@@ -15,7 +15,7 @@ end
 class Lim < Formula
   desc "Get remote Android instances for local development and testing"
   homepage "https://limbar.io"
-  version "v0.8.1"
+  version "v0.8.2"
   license "Proprietary"
 
   depends_on AdbRequirement
@@ -31,20 +31,20 @@ class Lim < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-darwin-arm64"
-      sha256 "e252a95d5ce1db328e20806b7b2b38280bd7dfe9ec2bb1151e8e791f3a9fac82" # replace_with_darwin_arm64_sha256
+      sha256 "a62bd82047ccaed9bb9a3d610423d3689385eacf8e2c2abc2166d1ab9a8f89c6" # replace_with_darwin_arm64_sha256
     else
       url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-darwin-amd64"
-      sha256 "a51098a38b75f82ee62867e34f3582d2c8cb1bec31ea4a6b5c21942baa076f01" # replace_with_darwin_amd64_sha256
+      sha256 "c8a0d42731e48d02808773b5fb798a637ca7277eb225d0f6ef6ac4d79251c095" # replace_with_darwin_amd64_sha256
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-linux-arm64"
-      sha256 "a3a615e116ce9c18a95b1269a34e6d7442eb87167f67a0bf07a67d416a40a618" # replace_with_linux_arm64_sha256
+      sha256 "17bd4ae0029417786d84b7dc78cc375918ecadee18ecdac39c55b4d1d5ffc2f1" # replace_with_linux_arm64_sha256
     else
       url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-linux-amd64"
-      sha256 "f3d5d5ed5269051fd2cfb774b8e2a81e4e781b7e9ad8074d50b991de94d3f89c" # replace_with_linux_amd64_sha256
+      sha256 "b8b8df10286daa4a88c8f60cce4687409b05722a91cc854f2f9eac00207e18ef" # replace_with_linux_amd64_sha256
     end
   end
 
