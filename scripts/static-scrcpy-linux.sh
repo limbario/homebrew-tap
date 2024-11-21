@@ -21,25 +21,48 @@ SDL_VERSION="2.30.9"
 LIBUSB_VERSION="1.0.27"
 
 install_dependencies() {
-DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get install -y curl \
-  nasm \
-  build-essential \
-  pkg-config \
-  meson \
-  ninja-build \
-  libx11-dev \
-  libxrandr-dev \
-  libxinerama-dev \
-  libxcursor-dev \
-  libwayland-dev \
-  libxkbcommon-dev \
-  libpulse-dev \
-  libasound2-dev \
-  libpipewire-0.3-dev \
-  libwayland-dev \
-  libdecor-0-dev
+    # Add ARM64 architecture support and repositories
+    dpkg --add-architecture arm64
+    
+    # Add ARM64 repositories
+    cat > /etc/apt/sources.list.d/arm64.list << EOF
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble main restricted universe multiverse
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble-updates main restricted universe multiverse
+deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports noble-security main restricted universe multiverse
+EOF
+
+    DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y curl \
+        nasm \
+        build-essential \
+        pkg-config \
+        meson \
+        ninja-build \
+        gcc-aarch64-linux-gnu \
+        g++-aarch64-linux-gnu \
+        libx11-dev \
+        libxrandr-dev \
+        libxinerama-dev \
+        libxcursor-dev \
+        libwayland-dev \
+        libxkbcommon-dev \
+        libpulse-dev \
+        libasound2-dev \
+        libpipewire-0.3-dev \
+        libwayland-dev \
+        libdecor-0-dev \
+        libx11-dev:arm64 \
+        libxrandr-dev:arm64 \
+        libxinerama-dev:arm64 \
+        libxcursor-dev:arm64 \
+        libwayland-dev:arm64 \
+        libxkbcommon-dev:arm64 \
+        libpulse-dev:arm64 \
+        libasound2-dev:arm64 \
+        libpipewire-0.3-dev:arm64 \
+        libwayland-dev:arm64 \
+        libdecor-0-dev:arm64
 }
 
 build_for_arch() {
@@ -150,10 +173,21 @@ build_for_arch() {
         tar xf "SDL2-$SDL_VERSION.tar.gz"
         cd "SDL2-$SDL_VERSION"
 
-        local PKG_CONFIG_PATH_ARM64="/usr/lib/aarch64-linux-gnu/pkgconfig"
-        local PKG_CONFIG_PATH_AMD64="/usr/lib/x86_64-linux-gnu/pkgconfig"
-        PKG_CONFIG_PATH="$([ "$ARCH" = "arm64" ] && echo "$PKG_CONFIG_PATH_ARM64" || echo "$PKG_CONFIG_PATH_AMD64")"
+        # Set up architecture-specific paths
+        local ARCH_SUFFIX=""
+        local ARCH_LIBDIR=""
+        if [ "$ARCH" = "arm64" ]; then
+            ARCH_SUFFIX=":arm64"
+            ARCH_LIBDIR="aarch64-linux-gnu"
+        else
+            ARCH_LIBDIR="x86_64-linux-gnu"
+        fi
 
+        # Set up PKG_CONFIG_PATH to find the correct architecture libraries
+        PKG_CONFIG_PATH="/usr/lib/${ARCH_LIBDIR}/pkgconfig" \
+        LIBRARY_PATH="/usr/lib/${ARCH_LIBDIR}" \
+        CFLAGS="-I/usr/include/${ARCH_LIBDIR}" \
+        LDFLAGS="-L/usr/lib/${ARCH_LIBDIR}" \
         ./configure \
             --host="$HOST" \
             --prefix="$PWD/../../$DEPS_DIR/sdl-install" \
@@ -164,7 +198,9 @@ build_for_arch() {
             --enable-pulseaudio \
             --enable-pulseaudio-shared=no \
             --enable-alsa \
-            --enable-alsa-shared=no
+            --enable-alsa-shared=no \
+            --enable-pipewire \
+            --enable-pipewire-shared=no
 
         make -j$(nproc)
         make install
