@@ -4,6 +4,13 @@ class Adb < Formula
   version "v35.0.2-12147458"
   license "Proprietary"
 
+  def caveats
+    <<~EOS
+      By installing this formula, you agree to the Android SDK license
+      agreement at https://developer.android.com/studio/terms.html
+    EOS
+  end
+
   on_macos do
     url "https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
     sha256 "1820078db90bf21628d257ff052528af1c61bb48f754b3555648f5652fa35d78"
