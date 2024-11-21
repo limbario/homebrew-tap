@@ -19,7 +19,7 @@ PREBUILT_SCRCPY_SERVER_PATH="prebuilt/scrcpy-server-v${PREBUILT_SCRCPY_SERVER_VE
 FFMPEG_VERSION="7.1"
 SDL_VERSION="2.30.9"
 LIBUSB_VERSION="1.0.27"
-BUILD_DIR="build-macos-static"
+BUILD_DIR="build-linux-static"
 DEPS_DIR="deps-static"
 
 # Create directories
@@ -51,7 +51,7 @@ build_libusb() {
         --disable-shared \
         --disable-udev
 
-    make -j$(sysctl -n hw.ncpu)
+    make -j$(nproc)
     make install
     cd ../..
 }
@@ -96,7 +96,7 @@ build_ffmpeg() {
         --enable-swresample \
         --pkg-config-flags="--static"
 
-    make -j$(sysctl -n hw.ncpu)
+    make -j$(nproc)
     make install
     cd ../..
 }
@@ -113,10 +113,10 @@ build_sdl() {
         --prefix="$PWD/../../$DEPS_DIR/sdl-install" \
         --enable-static \
         --disable-shared \
-        --disable-video-x11 \
-        --disable-video-wayland
+        --enable-video-x11 \
+        --enable-video-wayland
 
-    make -j$(sysctl -n hw.ncpu)
+    make -j$(nproc)
     make install
     cd ../..
 }
@@ -131,7 +131,7 @@ build_sdl
 PKG_CONFIG_PATH="$PWD/$DEPS_DIR/ffmpeg-install/lib/pkgconfig:$PWD/$DEPS_DIR/sdl-install/lib/pkgconfig:$PWD/$DEPS_DIR/libusb-install/lib/pkgconfig" \
 CFLAGS="-I$PWD/$DEPS_DIR/libusb-install/include -I$PWD/$DEPS_DIR/libusb-install/include/libusb-1.0" \
 CPPFLAGS="-I$PWD/$DEPS_DIR/libusb-install/include" \
-LDFLAGS="-L$PWD/$DEPS_DIR/libusb-install/lib -framework Security -framework CoreFoundation -framework CoreGraphics -framework IOKit -framework AppKit -framework AudioToolbox -framework CoreAudio -framework Metal -framework AVFoundation -framework VideoToolbox" \
+LDFLAGS="-L$PWD/$DEPS_DIR/libusb-install/lib -static-libgcc -static-libstdc++" \
 meson setup "$BUILD_DIR" \
     --buildtype=release \
     --strip \
@@ -148,7 +148,7 @@ ninja -C "$BUILD_DIR"
 
 # Create distributable package
 mkdir -p "$DIST_DIR"
-cp "$BUILD_DIR/app/scrcpy" "$DIST_DIR/scrcpy-darwin-v${VERSION}"
+cp "$BUILD_DIR/app/scrcpy" "$DIST_DIR/scrcpy-linux-v${VERSION}"
 cp "${PREBUILT_SCRCPY_SERVER_PATH}" "$DIST_DIR/"
 
 echo "Build complete! See $DIST_DIR"
