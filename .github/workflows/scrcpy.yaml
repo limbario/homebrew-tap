@@ -27,12 +27,12 @@ jobs:
         run: |
           cp scripts/static-scrcpy-darwin.sh scrcpy-repo/static-scrcpy-darwin.sh
           cd scrcpy-repo
-          ./static-scrcpy-darwin.sh ${{ inputs.scrcpy_version }} scrcpy-darwin
+          ./static-scrcpy-darwin.sh ${{ inputs.scrcpy_version }} dist
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: scrcpy-darwin-static
-          path: scrcpy-repo/scrcpy-darwin
+          path: scrcpy-repo/dist
   open-pr:
     runs-on: ubuntu-latest
     needs: darwin

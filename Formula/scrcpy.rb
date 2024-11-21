@@ -7,6 +7,11 @@ class Scrcpy < Formula
   version "v2.7"
   license "Apache-2.0"
 
+  resource "prebuilt-server" do
+    url "https://github.com/Genymobile/scrcpy/releases/download/v2.7/scrcpy-server-v2.7", using: :nounzip
+    sha256 "a23c5659f36c260f105c022d27bcb3eafffa26070e7baa9eda66d01377a1adba"
+  end
+
   on_macos do
     url "https://github.com/limbario/homebrew-tap/releases/download/v0.8.3/scrcpy-darwin"
     sha256 "731b5c9a744cf598952e0017893aa3917fa9204f49dcd0478313bda5249560ae"

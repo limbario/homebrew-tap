@@ -6,15 +6,16 @@ if [ -z "$1" ]; then
     exit 1
 fi
 if [ -z "$2" ]; then
-    echo "Usage: $0 <version> <output_path>"
+    echo "Usage: $0 <version> <output_dir>"
     exit 1
 fi
 
 VERSION="$1"
-OUTPUT_PATH="$2"
+DIST_DIR="$2"
 
 # Configuration
-PREBUILD_SCRCPY_SERVER_VERSION="${VERSION}"
+PREBUILT_SCRCPY_SERVER_VERSION="${VERSION}"
+PREBUILT_SCRCPY_SERVER_PATH="prebuilt/scrcpy-server-v${PREBUILT_SCRCPY_SERVER_VERSION}"
 FFMPEG_VERSION="7.1"
 SDL_VERSION="2.30.9"
 LIBUSB_VERSION="1.0.27"
@@ -28,8 +29,8 @@ mkdir -p "$BUILD_DIR"
 download_prebuilt_server() {
     echo "Downloading prebuilt server..."
     mkdir -p prebuilt
-    curl -L "https://github.com/Genymobile/scrcpy/releases/download/v${PREBUILD_SCRCPY_SERVER_VERSION}/scrcpy-server-v${PREBUILD_SCRCPY_SERVER_VERSION}" \
-        -o prebuilt/scrcpy-server
+    curl -L "https://github.com/Genymobile/scrcpy/releases/download/v${PREBUILT_SCRCPY_SERVER_VERSION}/scrcpy-server-v${PREBUILT_SCRCPY_SERVER_VERSION}" \
+        -o "${PREBUILT_SCRCPY_SERVER_PATH}"
 }
 
 # Build libusb statically
@@ -138,7 +139,7 @@ meson setup "$BUILD_DIR" \
     -Db_lto=true \
     -Dportable=true \
     -Dcompile_server=false \
-    -Dprebuilt_server=prebuilt/scrcpy-server \
+    -Dprebuilt_server="${PREBUILT_SCRCPY_SERVER_PATH}" \
     -Dc_args="-I$PWD/$DEPS_DIR/libusb-install/include" \
     --wipe
 
@@ -146,8 +147,9 @@ meson setup "$BUILD_DIR" \
 ninja -C "$BUILD_DIR"
 
 # Create distributable package
-DIST_DIR="dist/scrcpy-macos-${VERSION}"
 mkdir -p "$DIST_DIR"
-mv "$BUILD_DIR/app/scrcpy" "${OUTPUT_PATH}"
+cp "$BUILD_DIR/app/scrcpy" "$DIST_DIR/scrcpy-v${VERSION}"
+cp "${PREBUILT_SCRCPY_SERVER_PATH}" "$DIST_DIR/"
 
-echo "Build complete! Standalone binary is in $OUTPUT_PATH"
+echo "Build complete! See $DIST_DIR"
+ls -la "$DIST_DIR"
