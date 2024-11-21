@@ -20,6 +20,28 @@ FFMPEG_VERSION="7.1"
 SDL_VERSION="2.30.9"
 LIBUSB_VERSION="1.0.27"
 
+install_dependencies() {
+DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install -y curl \
+  nasm \
+  build-essential \
+  pkg-config \
+  meson \
+  ninja-build \
+  libx11-dev \
+  libxrandr-dev \
+  libxinerama-dev \
+  libxcursor-dev \
+  libwayland-dev \
+  libxkbcommon-dev \
+  libpulse-dev \
+  libasound2-dev \
+  libpipewire-0.3-dev \
+  libwayland-dev \
+  libdecor-0-dev
+}
+
 build_for_arch() {
     local ARCH="$1"
     local BUILD_DIR="build-linux-static-${ARCH}"
@@ -78,6 +100,11 @@ build_for_arch() {
         tar xf "ffmpeg-$FFMPEG_VERSION.tar.xz"
         cd "ffmpeg-$FFMPEG_VERSION"
 
+        local ASM_FLAG=""
+        if [ "$ARCH" = "arm64" ]; then
+          ASM_FLAG="--disable-x86asm"
+        fi
+
         ./configure \
             --cross-prefix="${TOOLCHAIN}-" \
             --prefix="$PWD/../../$DEPS_DIR/ffmpeg-install" \
@@ -106,6 +133,8 @@ build_for_arch() {
             --enable-pic \
             --enable-swresample \
             --pkg-config-flags="--static" \
+            --target-os="linux" \
+            $ASM_FLAG \
             $EXTRA_FLAGS
 
         make -j$(nproc)
@@ -121,13 +150,21 @@ build_for_arch() {
         tar xf "SDL2-$SDL_VERSION.tar.gz"
         cd "SDL2-$SDL_VERSION"
 
+        local PKG_CONFIG_PATH_ARM64="/usr/lib/aarch64-linux-gnu/pkgconfig"
+        local PKG_CONFIG_PATH_AMD64="/usr/lib/x86_64-linux-gnu/pkgconfig"
+        PKG_CONFIG_PATH="$([ "$ARCH" = "arm64" ] && echo "$PKG_CONFIG_PATH_ARM64" || echo "$PKG_CONFIG_PATH_AMD64")"
+
         ./configure \
             --host="$HOST" \
             --prefix="$PWD/../../$DEPS_DIR/sdl-install" \
             --enable-static \
             --disable-shared \
             --enable-video-x11 \
-            --enable-video-wayland
+            --enable-video-wayland \
+            --enable-pulseaudio \
+            --enable-pulseaudio-shared=no \
+            --enable-alsa \
+            --enable-alsa-shared=no
 
         make -j$(nproc)
         make install
@@ -204,6 +241,8 @@ cpu_family = 'x86_64'
 cpu = 'x86_64'
 endian = 'little'
 EOF
+
+install_dependencies
 
 # Download server first
 download_prebuilt_server
