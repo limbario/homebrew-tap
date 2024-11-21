@@ -47,9 +47,20 @@ jobs:
           path: scrcpy-repo
       - name: Setup Build Environment
         run: |
-          apt-get install -y curl build-essential pkg-config meson ninja-build \
-          libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev \
-          libwayland-dev libxkbcommon-dev
+          DEBIAN_FRONTEND=noninteractive
+          apt-get update
+          apt-get install -y curl \
+            gcc-aarch64-linux-gnu \
+            g++-aarch64-linux-gnu \
+            pkg-config \
+            meson \
+            ninja-build \
+            libx11-dev \
+            libxrandr-dev \
+            libxinerama-dev \
+            libxcursor-dev \
+            libwayland-dev \
+            libxkbcommon-dev
       - name: Build static scrcpy
         run: |
           cp scripts/static-scrcpy-linux.sh scrcpy-repo/static-scrcpy-linux.sh
