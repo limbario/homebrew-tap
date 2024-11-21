@@ -1,24 +1,10 @@
-class AdbRequirement < Requirement
-  fatal true
-
-  satisfy(build_env: false) { which("adb") }
-
-  def message
-    <<~EOS
-      Android Debug Bridge (adb) is required to use lim.
-      You can install it via Android Studio or with:
-        brew install --cask android-platform-tools
-    EOS
-  end
-end
-
 class Lim < Formula
   desc "Get remote Android instances for local development and testing"
   homepage "https://limbar.io"
   version "v0.8.2"
   license "Proprietary"
 
-  depends_on AdbRequirement
+  depends_on "limbario/tap/adb"
   depends_on "scrcpy"
 
   def caveats
