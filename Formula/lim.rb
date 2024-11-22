@@ -5,7 +5,8 @@ class Lim < Formula
   license "Proprietary"
 
   depends_on "limbario/tap/adb"
-  depends_on "limbario/tap/scrcpy"
+  # depends_on "limbario/tap/scrcpy"
+  depends_on "scrcpy"
 
   def caveats
     <<~EOS
