@@ -37,6 +37,6 @@ class Ffmpeg < Formula
   end
 
   test do
-    system "#{bin}/ffmpeg", "--version"
+    system "#{bin}/ffmpeg", "-version"
   end
 end
