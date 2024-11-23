@@ -149,7 +149,6 @@ ninja -C "$BUILD_DIR"
 # Create distributable package
 mkdir -p "$DIST_DIR"
 cp "$BUILD_DIR/app/scrcpy" "$DIST_DIR/scrcpy-darwin-v${VERSION}"
-cp "${PREBUILT_SCRCPY_SERVER_PATH}" "$DIST_DIR/"
 
 echo "Build complete! See $DIST_DIR"
 ls -la "$DIST_DIR"
