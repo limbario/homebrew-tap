@@ -6,12 +6,12 @@ if [ -z "$1" ]; then
     exit 1
 fi
 if [ -z "$2" ]; then
-    echo "Usage: $0 <scrcpy version> <output_dir>"
+    echo "Usage: $0 <scrcpy version> <output_path>"
     exit 1
 fi
 
 VERSION="$1"
-DIST_DIR="$2"
+OUTPUT_PATH="$2"
 
 # Configuration
 PREBUILT_SCRCPY_SERVER_VERSION="${VERSION}"
@@ -147,8 +147,8 @@ meson setup "$BUILD_DIR" \
 ninja -C "$BUILD_DIR"
 
 # Create distributable package
-mkdir -p "$DIST_DIR"
-cp "$BUILD_DIR/app/scrcpy" "$DIST_DIR/scrcpy-darwin-v${VERSION}"
+mkdir -p $(dirname $OUTPUT_PATH)
+cp "$BUILD_DIR/app/scrcpy" "$OUTPUT_PATH"
 
-echo "Build complete! See $DIST_DIR"
-ls -la "$DIST_DIR"
+echo "Build complete! See $OUTPUT_PATH"
+ls -la "$OUTPUT_PATH"
