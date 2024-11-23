@@ -27,17 +27,14 @@ mkdir -p "$DEPS_DIR"
 mkdir -p "$BUILD_DIR"
 
 install_dependencies() {
-    DEBIAN_FRONTEND=noninteractive
     sudo apt-get update
-    sudo apt-get install --yes --no-install-recommends \
-        curl \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+        curl ca-certificates \
         nasm \
         build-essential \
         pkg-config \
         meson \
         ninja-build \
-        gcc-aarch64-linux-gnu \
-        g++-aarch64-linux-gnu \
         libx11-dev \
         libxrandr-dev \
         libxinerama-dev \
@@ -156,8 +153,8 @@ install_dependencies
 download_prebuilt_server
 # Build static dependencies
 build_libusb
-build_ffmpeg
 build_sdl
+build_ffmpeg
 
 # Configure scrcpy with static dependencies
 PKG_CONFIG_PATH="$PWD/$DEPS_DIR/ffmpeg-install/lib/pkgconfig:$PWD/$DEPS_DIR/sdl-install/lib/pkgconfig:$PWD/$DEPS_DIR/libusb-install/lib/pkgconfig" \

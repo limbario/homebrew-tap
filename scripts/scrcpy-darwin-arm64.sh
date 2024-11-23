@@ -124,8 +124,8 @@ build_sdl() {
 download_prebuilt_server
 # Build static dependencies
 build_libusb
-build_ffmpeg
 build_sdl
+build_ffmpeg
 
 # Configure scrcpy with static dependencies
 PKG_CONFIG_PATH="$PWD/$DEPS_DIR/ffmpeg-install/lib/pkgconfig:$PWD/$DEPS_DIR/sdl-install/lib/pkgconfig:$PWD/$DEPS_DIR/libusb-install/lib/pkgconfig" \
