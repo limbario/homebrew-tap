@@ -6,6 +6,11 @@ class Scrcpy < Formula
 
   depends_on "limbario/tap/adb"
 
+  resource "prebuilt-server" do
+    url "https://github.com/Genymobile/scrcpy/releases/download/#{version}/scrcpy-server-#{version}", using: :nounzip
+    sha256 "a23c5659f36c260f105c022d27bcb3eafffa26070e7baa9eda66d01377a1adba"
+  end
+
   on_macos do
     if Hardware::CPU.arm?
       url "https://raw.githubusercontent.com/limbario/homebrew-tap/refs/heads/main/bin/scrcpy-#{version}-darwin-arm64"
@@ -35,6 +40,7 @@ class Scrcpy < Formula
     end
 
     bin.install binary_path => binary_name
+    buildpath.install resource("prebuilt-server")
   end
 
   test do
