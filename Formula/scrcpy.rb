@@ -1,7 +1,7 @@
 class Scrcpy < Formula
   desc "Display and control your Android device"
   homepage "https://github.com/Genymobile/scrcpy"
-  version "v2.7"
+  version "2.7"
   license "Apache-2.0"
 
   depends_on "limbario/tap/adb"
