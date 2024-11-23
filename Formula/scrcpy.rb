@@ -14,7 +14,7 @@ class Scrcpy < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://raw.githubusercontent.com/limbario/homebrew-tap/refs/heads/main/bin/scrcpy-#{version}-darwin-arm64"
-      sha256 "a9b5637bb20999bb580347ff12f3762a1f05b669505241ac4f179abd5078c15d" # replace_with_darwin_arm64_sha256
+      sha256 "48612d8f9f0a51f3161d93555ed325435948960b2946d4793907f0f9bb5b7760" # replace_with_darwin_arm64_sha256
     else
       odie "This formula is not compatible with darwin-amd64. Please use `brew install scrcpy`"
     end
@@ -25,7 +25,7 @@ class Scrcpy < Formula
       odie "This formula is not compatible with linux-arm64. Please use `brew install scrcpy`"
     else
       url "https://raw.githubusercontent.com/limbario/homebrew-tap/refs/heads/main/bin/scrcpy-#{version}-linux-amd64"
-      sha256 "0f21cb13dc7cfc7423ad706e39fcd10e8baba0eed249bc2f59c3605e0b1b3e18" # replace_with_linux_amd64_sha256
+      sha256 "6696e27efeffb0b3de9f391ec35ccf4bba409eb3b010fd4cf3d1b3b37941d60e" # replace_with_linux_amd64_sha256
     end
   end
 
