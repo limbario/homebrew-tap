@@ -4,6 +4,8 @@ class Scrcpy < Formula
   version "3.0"
   license "Apache-2.0"
 
+  depends_on "limbario/tap/adb"
+
   def caveats
     <<~EOS
       By installing this formula, you agree to the Android SDK license
