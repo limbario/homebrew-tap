@@ -38,7 +38,8 @@ class Scrcpy < Formula
     inreplace "scrcpy" do |s|
       # Update cd command to work with symlinked script
       s.gsub! 'cd "$(dirname ${BASH_SOURCE[0]})"', ""
-      # Set absolute paths for binaries and resources
+      # We do not use the included adb.
+      s.gsub! 'export ADB="${ADB:-./adb}"', ""
       s.gsub! 'export SCRCPY_SERVER_PATH="${SCRCPY_SERVER_PATH:-./scrcpy-server}"',
               "export SCRCPY_SERVER_PATH=\"${SCRCPY_SERVER_PATH:-#{share}/scrcpy-server}\""
       s.gsub! 'export SCRCPY_ICON_PATH="${SCRCPY_ICON_PATH:-./icon.png}"',
