@@ -15,6 +15,7 @@ class Lim < Formula
 
   on_macos do
     if Hardware::CPU.arm?
+      # adb is included.
       depends_on "limbario/tap/scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-darwin-arm64"
@@ -34,6 +35,7 @@ class Lim < Formula
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-linux-arm64"
       sha256 "21359629376d7357f11afecb0d116fa6355789ff51c2f36f5087973d0ebd11f6" # replace_with_linux_arm64_sha256
     else
+      # adb is included.
       depends_on "limbario/tap/scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-linux-amd64"
