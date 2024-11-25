@@ -6,13 +6,6 @@ class Scrcpy < Formula
 
   depends_on "limbario/tap/adb"
 
-  def caveats
-    <<~EOS
-      By installing this formula, you agree to the Android SDK license
-      agreement at https://developer.android.com/studio/terms.html
-    EOS
-  end
-
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/Genymobile/scrcpy/releases/download/v3.0/scrcpy-macos-v3.0.tar.gz"
