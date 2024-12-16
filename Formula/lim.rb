@@ -4,6 +4,9 @@ class Lim < Formula
   version "v0.7.0"
   license "Proprietary"
 
+  depends_on "adb"
+  depends_on "scrcpy"
+
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-darwin-arm64"
