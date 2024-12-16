@@ -4,8 +4,19 @@ class Lim < Formula
   version "v0.7.0"
   license "Proprietary"
 
-  depends_on "homebrew/cask/android-platform-tools"
   depends_on "scrcpy"
+
+  def caveats
+    if !Utils.popen_read("which adb").chomp.empty?
+      return
+    end
+    <<~EOS
+      lim requires adb to be present.
+
+      If you don't have Android Studio installed, you can install it with:
+        brew install --cask android-platform-tools
+    EOS
+  end
 
   on_macos do
     if Hardware::CPU.arm?
