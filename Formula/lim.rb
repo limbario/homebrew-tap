@@ -7,15 +7,22 @@ class Lim < Formula
   depends_on "scrcpy"
 
   def caveats
-    if !Utils.popen_read("which adb").chomp.empty?
-      return
-    end
-    <<~EOS
-      lim requires adb to be present.
+    caveats = []
 
-      If you don't have Android Studio installed, you can install it with:
-        brew install --cask android-platform-tools
+    if Utils.popen_read("which adb").chomp.empty?
+      caveats << <<~EOS
+        lim requires adb to be present.
+        If you don't have Android Studio installed, you can install it with:
+          brew install --cask android-platform-tools
+      EOS
+    end
+
+    caveats << <<~EOS
+      Get started with:
+        lim create android
     EOS
+
+    return caveats.join("\n\n")
   end
 
   on_macos do
