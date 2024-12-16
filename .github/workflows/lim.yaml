@@ -96,12 +96,14 @@ jobs:
             export arch=$(echo $platform | cut -d'/' -f2)
             echo "Building for $os/$arch"
             CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags="-X 'github.com/limbario/limbar/version.Version=${{ steps.version.outputs.VERSION }}'" -o .work/bin/lim-${os}-${arch} cmd/lim/main.go &
-            shasum -a 256 .work/bin/lim-${os}-${arch} | awk '{printf "SHA256_lim_${os}_${arch}=%s", $1}' >> "$GITHUB_ENV"
           done
           for platform in $(echo $PLATFORMS | tr "," "\n"); do
             # Wait for every background job to finish. If any fails, -n will make the wait command fail
             # but it waits only for the last job so we need to invoke it as many times as there are jobs.
             wait -n
+          done
+          for platform in $(echo $PLATFORMS | tr "," "\n"); do
+            shasum -a 256 .work/bin/lim-${os}-${arch} | awk '{printf "SHA256_lim_${os}_${arch}=%s", $1}' >> "$GITHUB_ENV"
           done
       - name: Create release
         run: |
