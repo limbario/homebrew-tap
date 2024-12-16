@@ -1,18 +1,5 @@
-# Limbario Lim
+# Lim
 
-## How do I install these formulae?
+`lim` is the CLI for managing Android instances in Limbar.
 
-`brew install limbario/lim/lim`
-
-Or `brew tap limbario/lim` and then `brew install lim`.
-
-Or, in a [`brew bundle`](https://github.com/Homebrew/homebrew-bundle) `Brewfile`:
-
-```ruby
-tap "limbario/lim"
-brew "lim"
-```
-
-## Documentation
-
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
+Go to [releases](https://github.com/limbario/homebrew-lim/releases/latest) for installation instructions.
