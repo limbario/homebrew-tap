@@ -2,14 +2,8 @@ class Adb < Formula
   desc "Communicate with Android devices"
   homepage "https://developer.android.com/tools/releases/platform-tools"
   version "v35.0.2-12147458"
-  license "Proprietary"
-
-  def caveats
-    <<~EOS
-      By installing this formula, you agree to the Android SDK license
-      agreement at https://developer.android.com/studio/terms.html
-    EOS
-  end
+  license "Apache-2.0"
+  # Source code is in https://android.googlesource.com/platform/packages/modules/adb
 
   on_macos do
     url "https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"

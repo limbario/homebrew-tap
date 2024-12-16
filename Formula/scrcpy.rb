@@ -1,20 +1,15 @@
 class Scrcpy < Formula
   desc "Display and control your Android device"
   homepage "https://github.com/Genymobile/scrcpy"
-  version "v2.7"
+  version "3.0"
   license "Apache-2.0"
 
   depends_on "limbario/tap/adb"
 
-  resource "prebuilt-server" do
-    url "https://github.com/Genymobile/scrcpy/releases/download/#{version}/scrcpy-server-#{version}", using: :nounzip
-    sha256 "a23c5659f36c260f105c022d27bcb3eafffa26070e7baa9eda66d01377a1adba"
-  end
-
   on_macos do
     if Hardware::CPU.arm?
-      url "https://raw.githubusercontent.com/limbario/homebrew-tap/refs/heads/main/bin/scrcpy-#{version}-darwin-arm64"
-      sha256 "48612d8f9f0a51f3161d93555ed325435948960b2946d4793907f0f9bb5b7760" # replace_with_darwin_arm64_sha256
+      url "https://github.com/Genymobile/scrcpy/releases/download/v3.0/scrcpy-macos-v3.0.tar.gz"
+      sha256 "5db9821918537eb3aaf0333cdd05baf85babdd851972d5f1b71f86da0530b4bf"
     else
       odie "This formula is not compatible with darwin-amd64. Please use `brew install scrcpy`"
     end
@@ -24,23 +19,30 @@ class Scrcpy < Formula
     if Hardware::CPU.arm?
       odie "This formula is not compatible with linux-arm64. Please use `brew install scrcpy`"
     else
-      url "https://raw.githubusercontent.com/limbario/homebrew-tap/refs/heads/main/bin/scrcpy-#{version}-linux-amd64"
-      sha256 "6696e27efeffb0b3de9f391ec35ccf4bba409eb3b010fd4cf3d1b3b37941d60e" # replace_with_linux_amd64_sha256
+      url "https://github.com/Genymobile/scrcpy/releases/download/v3.0/scrcpy-linux-v3.0.tar.gz"
+      sha256 "06cb74e22f758228c944cea048b78e42b2925c2affe2b5aca901cfd6a649e503"
     end
   end
 
   def install
-    binary_name = "scrcpy"
-    binary_path = "scrcpy"
+    libexec.install "scrcpy_bin"
 
-    if OS.mac?
-      binary_path = Hardware::CPU.arm? ? "scrcpy-darwin-arm64" : "scrcpy-darwin-amd64"
-    elsif OS.linux?
-      binary_path = Hardware::CPU.arm? ? "scrcpy-linux-arm64" : "scrcpy-linux-amd64"
+    share.install "scrcpy-server"
+    share.install "icon.png"
+
+    inreplace "scrcpy" do |s|
+      # Update cd command to work with symlinked script
+      s.gsub! 'cd "$(dirname ${BASH_SOURCE[0]})"', ""
+      # We do not use the included adb.
+      s.gsub! 'export ADB="${ADB:-./adb}"', ""
+      s.gsub! 'export SCRCPY_SERVER_PATH="${SCRCPY_SERVER_PATH:-./scrcpy-server}"',
+              "export SCRCPY_SERVER_PATH=\"${SCRCPY_SERVER_PATH:-#{share}/scrcpy-server}\""
+      s.gsub! 'export SCRCPY_ICON_PATH="${SCRCPY_ICON_PATH:-./icon.png}"',
+              "export SCRCPY_ICON_PATH=\"${SCRCPY_ICON_PATH:-#{share}/icon.png}\""
+      s.gsub! './scrcpy_bin', "#{libexec}/scrcpy_bin"
     end
 
-    bin.install binary_path => binary_name
-    buildpath.install resource("prebuilt-server")
+    bin.install "scrcpy"
   end
 
   test do
