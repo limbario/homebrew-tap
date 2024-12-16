@@ -145,20 +145,20 @@ jobs:
           NOTES=$(cat <<EOF
           ## MacOS
 
-          Install with `brew install limbario/lim/lim` right away!
+          Install with \`brew install limbario/lim/lim\` right away!
 
           ## Linux
 
-          * Install with `brew install limbario/lim/lim` right away!
+          * Install with \`brew install limbario/lim/lim\` right away!
 
           ## Windows
 
-          * Download `lim-windows-amd64.zip` and extract it to a folder.
-          * Open the `lim-create-android.bat` to create an Android instance!
+          * Download \`lim-windows-amd64.zip\` and extract it to a folder.
+          * Open the \`lim-create-android.bat\` to create an Android instance!
 
           ### Encrypted Bundle
 
-          In case you have network restrictions regarding executable files, you can download the encrypted build for Windows called `lim-windows-amd64-encrypted.zip` and use `somepass` as password to decrypt after downloading it.
+          In case you have network restrictions regarding executable files, you can download the encrypted build for Windows called \`lim-windows-amd64-encrypted.zip\` and use \`somepass\` as password to decrypt after downloading it.
           EOF)
 
           gh release create ${{ steps.version.outputs.VERSION }} \
