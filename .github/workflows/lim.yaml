@@ -145,7 +145,7 @@ jobs:
           NOTES=$(cat <<EOF
           ## MacOS
 
-          Install with \`brew install limbario/lim/lim\` right away!
+          * Install with \`brew install limbario/lim/lim\` right away!
 
           ## Linux
 
@@ -158,7 +158,7 @@ jobs:
 
           ### Encrypted Bundle
 
-          In case you have network restrictions regarding executable files, you can download the encrypted build for Windows called \`lim-windows-amd64-encrypted.zip\` and use \`somepass\` as password to decrypt after downloading it.
+          In case you have network restrictions regarding executable files, you can download the encrypted bundle for Windows called \`lim-windows-amd64-encrypted.zip\` and use \`somepass\` as password to decrypt after downloading it.
           EOF)
 
           gh release create ${{ steps.version.outputs.VERSION }} \
