@@ -86,6 +86,7 @@ jobs:
           chmod +x /usr/local/bin/atlas
 
           go generate ./...
+          git diff --exit-code && echo "generated code is up to date" || (echo "go generate resulted in changes" && git diff && exit 1)
 
       - name: Build
         id: build
@@ -134,7 +135,7 @@ jobs:
         with:
           token: ${{ secrets.KARLIMBAR_BOT_TOKEN }}
           commit-message: |-
-            Update version to ${{ inputs.version }}
+            Update to ${{ inputs.version }}
           title: Update to ${{ inputs.version }}
           body: |-
             Update to ${{ inputs.version }}
