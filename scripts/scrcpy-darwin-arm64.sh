@@ -91,9 +91,9 @@ build_ffmpeg() {
         --enable-muxer=opus \
         --enable-muxer=flac \
         --enable-muxer=wav \
-        --disable-vulkan \
         --enable-pic \
         --enable-swresample \
+        --enable-small \
         --pkg-config-flags="--static"
 
     make -j$(sysctl -n hw.ncpu)

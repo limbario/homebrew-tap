@@ -28,8 +28,8 @@ mkdir -p "$BUILD_DIR"
 
 install_dependencies() {
     DEBIAN_FRONTEND=noninteractive
-    apt-get update
-    apt-get install --yes --no-install-recommends \
+    sudo apt-get update
+    sudo apt-get install --yes --no-install-recommends \
         curl \
         nasm \
         build-essential \
@@ -116,7 +116,6 @@ build_ffmpeg() {
         --enable-muxer=opus \
         --enable-muxer=flac \
         --enable-muxer=wav \
-        --disable-vulkan \
         --enable-pic \
         --enable-swresample \
         --enable-small \
