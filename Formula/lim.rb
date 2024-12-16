@@ -1,16 +1,16 @@
-# class AdbRequirement < Requirement
-#   fatal true
+class AdbRequirement < Requirement
+  fatal true
 
-#   satisfy(build_env: false) { which("adb") }
+  satisfy(build_env: false) { which("adb") }
 
-#   def message
-#     <<~EOS
-#       adb is required to use lim.
-#       You can install it via Android Studio or with:
-#         brew install --cask android-platform-tools
-#     EOS
-#   end
-# end
+  def message
+    <<~EOS
+      adb is required to use lim.
+      You can install it via Android Studio or with:
+        brew install --cask android-platform-tools
+    EOS
+  end
+end
 
 class Lim < Formula
   desc "Get remote Android instances for local development and testing"
@@ -18,7 +18,7 @@ class Lim < Formula
   version "v0.7.4"
   license "Proprietary"
 
-  depends_on cask: "android-platform-tools"
+  depends_on AdbRequirement
   depends_on "scrcpy"
 
   def caveats
