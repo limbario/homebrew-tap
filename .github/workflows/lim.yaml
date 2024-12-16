@@ -9,6 +9,7 @@ on:
 
 env:
   GO_VERSION: 1.22.2
+  PLATFORMS: linux/amd64,linux/arm64,darwin/amd64,darwin/arm64,windows/amd64
 
 jobs:
   build:
@@ -88,8 +89,6 @@ jobs:
 
       - name: Build
         id: build
-        env:
-          PLATFORMS: linux/amd64,linux/arm64,darwin/amd64,darwin/arm64,windows/amd64
         run: |
           for platform in $(echo $PLATFORMS | tr "," "\n"); do
             export os=$(echo $platform | cut -d'/' -f1)
@@ -103,6 +102,8 @@ jobs:
             wait -n
           done
           for platform in $(echo $PLATFORMS | tr "," "\n"); do
+            export os=$(echo $platform | cut -d'/' -f1)
+            export arch=$(echo $platform | cut -d'/' -f2)
             shasum -a 256 .work/bin/lim-${os}-${arch} | awk '{printf "SHA256_lim_${os}_${arch}=%s", $1}' >> "$GITHUB_ENV"
           done
       - name: Create release
