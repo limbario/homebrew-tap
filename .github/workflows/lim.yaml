@@ -140,7 +140,7 @@ jobs:
         run: |
           gh release create ${{ steps.version.outputs.VERSION }} \
             --title ${{ steps.version.outputs.VERSION }} \
-            --notes 'Install with `brew install limbario/lim/lim` right away!' \
+            --notes '## MacOS\n\nInstall with `brew install limbario/lim/lim` right away!\n\n## Linux\n\nInstall with `brew install limbario/lim/lim` right away!\n\n## Windows\n\nDownload `lim-windows-amd64.zip` and extract it to a folder. Then open the `lim-create-android.bat` to create an Android instance!' \
             --repo limbario/homebrew-lim ./.work/bin/lim-*
   open-pr:
     runs-on: ubuntu-latest
