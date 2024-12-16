@@ -26,6 +26,31 @@ DEPS_DIR="deps-static"
 mkdir -p "$DEPS_DIR"
 mkdir -p "$BUILD_DIR"
 
+install_dependencies() {
+    DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install --yes --no-install-recommends \
+        curl \
+        nasm \
+        build-essential \
+        pkg-config \
+        meson \
+        ninja-build \
+        gcc-aarch64-linux-gnu \
+        g++-aarch64-linux-gnu \
+        libx11-dev \
+        libxrandr-dev \
+        libxinerama-dev \
+        libxcursor-dev \
+        libwayland-dev \
+        libxkbcommon-dev \
+        libpulse-dev \
+        libasound2-dev \
+        libpipewire-0.3-dev \
+        libwayland-dev \
+        libdecor-0-dev
+}
+
 download_prebuilt_server() {
     echo "Downloading prebuilt server..."
     mkdir -p prebuilt
@@ -94,6 +119,7 @@ build_ffmpeg() {
         --disable-vulkan \
         --enable-pic \
         --enable-swresample \
+        --enable-small \
         --pkg-config-flags="--static"
 
     make -j$(nproc)
@@ -114,13 +140,20 @@ build_sdl() {
         --enable-static \
         --disable-shared \
         --enable-video-x11 \
-        --enable-video-wayland
+        --enable-video-wayland \
+        --enable-pulseaudio \
+        --enable-pulseaudio-shared=no \
+        --enable-alsa \
+        --enable-alsa-shared=no \
+        --enable-pipewire \
+        --enable-pipewire-shared=no
 
     make -j$(nproc)
     make install
     cd ../..
 }
 
+install_dependencies
 download_prebuilt_server
 # Build static dependencies
 build_libusb
@@ -149,7 +182,6 @@ ninja -C "$BUILD_DIR"
 # Create distributable package
 mkdir -p "$DIST_DIR"
 cp "$BUILD_DIR/app/scrcpy" "$DIST_DIR/scrcpy-linux-v${VERSION}"
-cp "${PREBUILT_SCRCPY_SERVER_PATH}" "$DIST_DIR/"
 
 echo "Build complete! See $DIST_DIR"
 ls -la "$DIST_DIR"
