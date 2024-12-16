@@ -1,28 +1,31 @@
+class AdbRequirement < Requirement
+  fatal true
+
+  satisfy(build_env: false) { which("adb") }
+
+  def message
+    <<~EOS
+      adb is required to use lim.
+      You can install it via Android Studio or with:
+        brew install --cask android-platform-tools
+    EOS
+  end
+end
+
 class Lim < Formula
   desc "Get remote Android instances for local development and testing"
   homepage "https://limbar.io"
   version "v0.7.0"
   license "Proprietary"
 
+  depends_on AdbRequirement
   depends_on "scrcpy"
 
   def caveats
-    caveats = []
-
-    if Utils.popen_read("which adb").chomp.empty?
-      caveats << <<~EOS
-        lim requires adb to be present.
-        If you don't have Android Studio installed, you can install it with:
-          brew install --cask android-platform-tools
-      EOS
-    end
-
-    caveats << <<~EOS
+    <<~EOS
       Get started with:
         lim create android
     EOS
-
-    return caveats.join("\n\n")
   end
 
   on_macos do
