@@ -4,7 +4,7 @@ class Lim < Formula
   version "v0.7.0"
   license "Proprietary"
 
-  depends_on "adb"
+  depends_on "homebrew/cask/android-platform-tools"
   depends_on "scrcpy"
 
   on_macos do
