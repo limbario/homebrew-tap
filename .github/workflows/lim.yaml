@@ -9,6 +9,7 @@ on:
 
 env:
   GO_VERSION: 1.23
+  ATLAS_VERSION: 0.28.0
   PLATFORMS: linux/amd64,linux/arm64,darwin/amd64,darwin/arm64,windows/amd64
 
 jobs:
@@ -82,7 +83,7 @@ jobs:
           wget \
             --quiet \
             --output-document /usr/local/bin/atlas \
-            "https://release.ariga.io/atlas/atlas-linux-$(arch | sed 's/x86_64/amd64/g')-v0.25.0"
+            "https://release.ariga.io/atlas/atlas-linux-$(arch | sed 's/x86_64/amd64/g')-v${{ env.ATLAS_VERSION }}"
           chmod +x /usr/local/bin/atlas
 
           go generate ./...
