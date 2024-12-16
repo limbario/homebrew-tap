@@ -95,7 +95,14 @@ jobs:
             os=$(echo $platform | cut -d'/' -f1)
             arch=$(echo $platform | cut -d'/' -f2)
             echo "Building for $os/$arch"
-            CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags="-X 'github.com/limbario/limbar/version.Version=${{ steps.version.outputs.VERSION }}'" -o .work/bin/lim-${os}-${arch} cmd/lim/main.go &
+            extension=""
+            if [ "$os" = "windows" ]; then
+              extension=".exe"
+              if [ "$arch" = "arm64" ]; then
+                continue
+              fi
+            fi
+            CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags="-X 'github.com/limbario/limbar/version.Version=${{ steps.version.outputs.VERSION }}'" -o .work/bin/lim-${os}-${arch}${extension} cmd/lim/main.go &
           done
           for platform in $(echo $PLATFORMS | tr "," "\n"); do
             # Wait for every background job to finish. If any fails, -n will make the wait command fail
@@ -109,6 +116,20 @@ jobs:
             echo "SHA256_lim_${os}_${arch}=${SHA256}"
             echo "SHA256_lim_${os}_${arch}=${SHA256}" >> "$GITHUB_OUTPUT"
           done
+      - name: Prepare Windows bundle
+        env:
+          SCRCPY_VERSION: v2.6.1
+        run: |
+          #!/usr/bin/env bash
+          set -e
+
+          mkdir .work/lim-windows-amd64
+          curl -Lo /tmp/scrcpy.zip https://github.com/Genymobile/scrcpy/releases/download/${SCRCPY_VERSION}/scrcpy-win64-${SCRCPY_VERSION}.zip
+          unzip /tmp/scrcpy.zip -d .work/lim-windows-amd64
+          mv .work/lim-windows-amd64/scrcpy-win64-${SCRCPY_VERSION}/* .work/lim-windows-amd64
+          rmdir .work/lim-windows-amd64/scrcpy-win64-${SCRCPY_VERSION}
+          mv .work/bin/lim-windows-amd64.exe .work/lim-windows-amd64/lim.exe
+          zip -r .work/bin/lim-windows-amd64.zip .work/lim-windows-amd64
       - name: Create release
         env:
           GH_TOKEN: ${{ secrets.KARLIMBAR_BOT_TOKEN }}
