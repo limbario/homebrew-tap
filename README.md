@@ -2,15 +2,15 @@
 
 ## How do I install these formulae?
 
-`brew install limbario/lim/<formula>`
+`brew install limbario/lim/lim`
 
-Or `brew tap limbario/lim` and then `brew install <formula>`.
+Or `brew tap limbario/lim` and then `brew install lim`.
 
 Or, in a [`brew bundle`](https://github.com/Homebrew/homebrew-bundle) `Brewfile`:
 
 ```ruby
 tap "limbario/lim"
-brew "<formula>"
+brew "lim"
 ```
 
 ## Documentation
