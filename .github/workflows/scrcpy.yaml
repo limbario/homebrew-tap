@@ -27,7 +27,7 @@ jobs:
         run: |
           cp scripts/scrcpy-darwin-arm64.sh scrcpy-repo/scrcpy-darwin-arm64.sh
           cd scrcpy-repo
-          ./scrcpy-darwin-arm64.sh ${{ inputs.scrcpy_version }} dist
+          ./scrcpy-darwin-arm64.sh ${{ inputs.scrcpy_version }} dist/scrcpy-v${{ inputs.scrcpy_version }}-darwin-arm64
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -49,7 +49,7 @@ jobs:
         run: |
           cp scripts/scrcpy-linux-amd64.sh scrcpy-repo/scrcpy-linux-amd64.sh
           cd scrcpy-repo
-          ./scrcpy-linux-amd64.sh ${{ inputs.scrcpy_version }} dist
+          ./scrcpy-linux-amd64.sh ${{ inputs.scrcpy_version }} dist/scrcpy-v${{ inputs.scrcpy_version }}-linux-amd64
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -76,6 +76,14 @@ jobs:
         with:
           name: scrcpy-linux-amd64
           path: bin
+      - name: Update checksums in formula
+        run: |
+          SHA_DARWIN_ARM64=$(shasum -a 256 bin/scrcpy-v${{ inputs.scrcpy_version }}-darwin-arm64 | cut -d ' ' -f 1)
+          SHA_LINUX_AMD64=$(shasum -a 256 bin/scrcpy-v${{ inputs.scrcpy_version }}-linux-amd64 | cut -d ' ' -f 1)
+          SHA_SERVER=$(shasum -a 256 bin/scrcpy-server-v${{ inputs.scrcpy_version }} | cut -d ' ' -f 1)
+          sed -i '/# replace_with_darwin_arm64_sha256/ s/sha256 "[^"]*"/sha256 "'${SHA_DARWIN_ARM64}'"/' Formula/lim.rb
+          sed -i '/# replace_with_linux_amd64_sha256/ s/sha256 "[^"]*"/sha256 "'${SHA_LINUX_AMD64}'"/' Formula/lim.rb
+          sed -i '/# replace_with_server_sha256/ s/sha256 "[^"]*"/sha256 "'${SHA_SERVER}'"/' Formula/lim.rb
       - name: Open a pull request
         uses: peter-evans/create-pull-request@v5
         with:
