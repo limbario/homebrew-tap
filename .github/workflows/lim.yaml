@@ -112,7 +112,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.KARLIMBAR_BOT_TOKEN }}
         run: |
-          gh release create ${{ steps.version.outputs.VERSION }} --title ${{ steps.version.outputs.VERSION }} --repo limbario/homebrew-lim ./.work/bin/lim-*
+          gh release create ${{ steps.version.outputs.VERSION }} \
+            --title ${{ steps.version.outputs.VERSION }} \
+            --body "Install with `brew install limbario/lim/lim` right away!" \
+            --repo limbario/homebrew-lim ./.work/bin/lim-*
   open-pr:
     runs-on: ubuntu-latest
     needs: build
