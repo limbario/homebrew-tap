@@ -134,13 +134,38 @@ jobs:
           echo -e ".\dependencies\lim.exe create android\r\npause" > .work/lim-windows-amd64/lim/lim-create-android.bat
           cd .work/lim-windows-amd64
           zip -r ../../.work/bin/lim-windows-amd64.zip .
+          zip -P somepass -r ../../.work/bin/lim-windows-amd64-encrypted.zip .
       - name: Create release
         env:
           GH_TOKEN: ${{ secrets.KARLIMBAR_BOT_TOKEN }}
         run: |
+          #!/usr/bin/env bash
+          set -e
+
+          NOTES=$(cat <<EOF
+          ## MacOS
+
+          Install with \`brew install limbario/lim/lim\` right away!
+
+          ## Linux
+
+          Install with \`brew install limbario/lim/lim\` right away!
+
+          ## Windows
+
+          Download \`lim-windows-amd64.zip\` and extract it to a folder.
+          Then open the \`lim-create-android.bat\` to create an Android instance!
+
+          ### Encrypted Build
+
+          In case you have network restrictions regarding executable files,
+          you can download the encrypted build for Windows called \`lim-windows-amd64-encrypted.zip\`
+          and use `somepass` to decrypt after downloading it.
+          EOF)
+
           gh release create ${{ steps.version.outputs.VERSION }} \
             --title ${{ steps.version.outputs.VERSION }} \
-            --notes '## MacOS\n\nInstall with `brew install limbario/lim/lim` right away!\n\n## Linux\n\nInstall with `brew install limbario/lim/lim` right away!\n\n## Windows\n\nDownload `lim-windows-amd64.zip` and extract it to a folder. Then open the `lim-create-android.bat` to create an Android instance!' \
+            --notes "${NOTES}" \
             --repo limbario/homebrew-lim ./.work/bin/lim-*
   open-pr:
     runs-on: ubuntu-latest
