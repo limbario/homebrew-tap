@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.VERSION }}
-      SHA256_lim-linux-amd64: ${{ steps.build.outputs.SHA256_lim_linux_amd64 }}
+      SHA256_lim_linux_amd64: ${{ steps.build.outputs.SHA256_lim_linux_amd64 }}
       SHA256_lim_linux_arm64: ${{ steps.build.outputs.SHA256_lim_linux_arm64 }}
       SHA256_lim_darwin_amd64: ${{ steps.build.outputs.SHA256_lim_darwin_amd64 }}
       SHA256_lim_darwin_arm64: ${{ steps.build.outputs.SHA256_lim_darwin_arm64 }}
@@ -106,7 +106,7 @@ jobs:
             arch=$(echo $platform | cut -d'/' -f2)
             SHA256=$(shasum -a 256 .work/bin/lim-${os}-${arch} | cut -d ' ' -f 1)
             echo "SHA256_lim_${os}_${arch}=${SHA256}"
-            echo "SHA256_lim_${os}_${arch}=${SHA256}" >> "$GITHUB_ENV"
+            echo "SHA256_lim_${os}_${arch}=${SHA256}" >> "$GITHUB_OUTPUT"
           done
       - name: Create release
         env:
