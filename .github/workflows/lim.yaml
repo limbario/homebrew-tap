@@ -123,16 +123,17 @@ jobs:
           #!/usr/bin/env bash
           set -e
 
-          mkdir -p .work/lim-windows-amd64/dependencies
+          mkdir -p .work/lim-windows-amd64/lim/dependencies
 
           curl -Lo /tmp/scrcpy.zip https://github.com/Genymobile/scrcpy/releases/download/${SCRCPY_VERSION}/scrcpy-win64-${SCRCPY_VERSION}.zip
           unzip /tmp/scrcpy.zip -d /tmp/scrcpy
-          mv /tmp/scrcpy/scrcpy-win64-${SCRCPY_VERSION}/* .work/lim-windows-amd64/dependencies/
-          rmdir .work/lim-windows-amd64/scrcpy-win64-${SCRCPY_VERSION}
+          mv /tmp/scrcpy/scrcpy-win64-${SCRCPY_VERSION}/* .work/lim-windows-amd64/lim/dependencies/
+          rm -rf /tmp/scrcpy
 
-          mv .work/bin/lim-windows-amd64.exe .work/lim-windows-amd64/dependencies/lim.exe
-          echo 'lim.exe create android' > .work/lim-windows-amd64/lim-create-android.bat
-          zip -r .work/bin/lim-windows-amd64.zip .work/lim-windows-amd64/*
+          mv .work/bin/lim-windows-amd64.exe .work/lim-windows-amd64/lim/dependencies/lim.exe
+          echo 'lim.exe create android' > .work/lim-windows-amd64/lim/lim-create-android.bat
+          cd .work/lim-windows-amd64
+          zip -r ../../.work/bin/lim-windows-amd64.zip .
       - name: Create release
         env:
           GH_TOKEN: ${{ secrets.KARLIMBAR_BOT_TOKEN }}
