@@ -25,7 +25,16 @@ class Lim < Formula
   end
 
   def install
-    bin.install "lim"
+    binary_name = "lim"
+    binary_path = "lim"
+
+    if OS.mac?
+      binary_path = Hardware::CPU.arm? ? "lim-darwin-arm64" : "lim-darwin-amd64"
+    elsif OS.linux?
+      binary_path = Hardware::CPU.arm? ? "lim-linux-arm64" : "lim-linux-amd64"
+    end
+
+    bin.install binary_path => binary_name
   end
 
   test do
