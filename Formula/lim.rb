@@ -6,20 +6,20 @@ class Lim < Formula
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-#{version}-darwin-arm64.tar.gz"
+      url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-darwin-arm64"
       sha256 "replace_with_darwin_arm64_sha256" # replace_with_darwin_arm64_sha256
     else
-      url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-#{version}-darwin-amd64.tar.gz"
+      url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-darwin-amd64"
       sha256 "replace_with_darwin_amd64_sha256" # replace_with_darwin_amd64_sha256
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-#{version}-linux-arm64.tar.gz"
+      url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-linux-arm64"
       sha256 "replace_with_linux_arm64_sha256" # replace_with_linux_arm64_sha256
     else
-      url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-#{version}-linux-amd64.tar.gz"
+      url "https://github.com/limbario/homebrew-lim/releases/download/#{version}/lim-linux-amd64"
       sha256 "replace_with_linux_amd64_sha256" # replace_with_linux_amd64_sha256
     end
   end
