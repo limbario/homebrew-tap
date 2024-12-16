@@ -131,7 +131,7 @@ jobs:
           rm -rf /tmp/scrcpy
 
           mv .work/bin/lim-windows-amd64.exe .work/lim-windows-amd64/lim/dependencies/lim.exe
-          echo 'lim.exe create android' > .work/lim-windows-amd64/lim/lim-create-android.bat
+          echo '.\dependencies\lim.exe create android' > .work/lim-windows-amd64/lim/lim-create-android.bat
           cd .work/lim-windows-amd64
           zip -r ../../.work/bin/lim-windows-amd64.zip .
       - name: Create release
