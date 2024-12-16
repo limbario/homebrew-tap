@@ -91,8 +91,8 @@ jobs:
         id: build
         run: |
           for platform in $(echo $PLATFORMS | tr "," "\n"); do
-            export os=$(echo $platform | cut -d'/' -f1)
-            export arch=$(echo $platform | cut -d'/' -f2)
+            os=$(echo $platform | cut -d'/' -f1)
+            arch=$(echo $platform | cut -d'/' -f2)
             echo "Building for $os/$arch"
             CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags="-X 'github.com/limbario/limbar/version.Version=${{ steps.version.outputs.VERSION }}'" -o .work/bin/lim-${os}-${arch} cmd/lim/main.go &
           done
@@ -102,9 +102,10 @@ jobs:
             wait -n
           done
           for platform in $(echo $PLATFORMS | tr "," "\n"); do
-            export os=$(echo $platform | cut -d'/' -f1)
-            export arch=$(echo $platform | cut -d'/' -f2)
-            shasum -a 256 .work/bin/lim-${os}-${arch} | awk '{printf "SHA256_lim_${os}_${arch}=%s", $1}' >> "$GITHUB_ENV"
+            os=$(echo $platform | cut -d'/' -f1)
+            arch=$(echo $platform | cut -d'/' -f2)
+            SHA256=$(shasum -a 256 .work/bin/lim-${os}-${arch} | cut -d ' ' -f 1)
+            echo "SHA256_lim_${os}_${arch}=${SHA256}" >> "$GITHUB_ENV"
           done
       - name: Create release
         env:
