@@ -131,7 +131,7 @@ jobs:
           rm -rf /tmp/scrcpy
 
           mv .work/bin/lim-windows-amd64.exe .work/lim-windows-amd64/lim/dependencies/lim.exe
-          echo -e ".\dependencies\lim.exe create android\r\npause" > .work/lim-windows-amd64/lim/lim-create-android.bat
+          echo -e ".\dependencies\lim.exe run android\r\npause" > .work/lim-windows-amd64/lim/lim-run-android.bat
           cd .work/lim-windows-amd64
           zip -r ../../.work/bin/lim-windows-amd64.zip .
           zip -P somepass -r ../../.work/bin/lim-windows-amd64-encrypted.zip .
@@ -154,7 +154,7 @@ jobs:
           ## Windows
 
           * Download \`lim-windows-amd64.zip\` and extract it to a folder.
-          * Open the \`lim-create-android.bat\` to create an Android instance!
+          * Open the \`lim-run-android.bat\` to create an Android instance!
 
           ### Encrypted Bundle
 

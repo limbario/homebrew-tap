@@ -5,7 +5,7 @@ class AdbRequirement < Requirement
 
   def message
     <<~EOS
-      adb is required to use lim.
+      Android Debug Bridge (adb) is required to use lim.
       You can install it via Android Studio or with:
         brew install --cask android-platform-tools
     EOS
@@ -24,7 +24,7 @@ class Lim < Formula
   def caveats
     <<~EOS
       Get started with:
-        lim create android
+        lim run android
     EOS
   end
 
