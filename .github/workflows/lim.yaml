@@ -105,6 +105,7 @@ jobs:
             os=$(echo $platform | cut -d'/' -f1)
             arch=$(echo $platform | cut -d'/' -f2)
             SHA256=$(shasum -a 256 .work/bin/lim-${os}-${arch} | cut -d ' ' -f 1)
+            echo "SHA256_lim_${os}_${arch}=${SHA256}"
             echo "SHA256_lim_${os}_${arch}=${SHA256}" >> "$GITHUB_ENV"
           done
       - name: Create release
@@ -112,7 +113,7 @@ jobs:
           GH_TOKEN: ${{ secrets.KARLIMBAR_BOT_TOKEN }}
         run: |
           gh release create ${{ steps.version.outputs.VERSION }} --title ${{ steps.version.outputs.VERSION }} --repo limbario/homebrew-lim ./.work/bin/lim-*
-  publish:
+  open-pr:
     runs-on: ubuntu-latest
     needs: build
     steps:
