@@ -135,7 +135,6 @@ jobs:
           echo -e ".\dependencies\lim.exe run android\r\npause" > .work/lim-windows-amd64/lim/lim-run-android.bat
           cd .work/lim-windows-amd64
           zip -r ../../.work/bin/lim-windows-amd64.zip .
-          zip -P somepass -r ../../.work/bin/lim-windows-amd64-encrypted.zip .
           cd ../..
 
       - name: Create release
@@ -159,10 +158,7 @@ jobs:
           * Download \`lim-windows-amd64.zip\` and extract it to a folder.
           * Open the \`lim-run-android.bat\` to create an Android instance!
 
-          ### Encrypted Bundle
-
-          In case you have network restrictions regarding executable files, you can download the encrypted bundle for Windows called \`lim-windows-amd64-encrypted.zip\` and use \`somepass\` as password to decrypt after downloading it.
-          EOF)
+          EOF
 
           gh release create ${{ steps.version.outputs.VERSION }} \
             --title ${{ steps.version.outputs.VERSION }} \
