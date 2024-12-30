@@ -1,10 +1,13 @@
 FROM alpine/curl:8.9.1 AS download
+ARG SCRCPY_VERSION=v3.1
+ARG LIM_VERSION=v0.8.8
 
-ARG SCRCPY_VERSION=3.1
-RUN curl -L https://github.com/Genymobile/scrcpy/releases/download/v${SCRCPY_VERSION}/scrcpy-linux-x86_64-v${SCRCPY_VERSION}.tar.gz | tar -xvzf - -C /tmp && \
-    mv /tmp/scrcpy-linux-x86_64-v${SCRCPY_VERSION}/* /tmp/
+# Note that scrcpy does not have static linux arm64 releases yet. So,
+# this must be built only for arm64 for now.
+RUN curl -L https://github.com/Genymobile/scrcpy/releases/download/${SCRCPY_VERSION}/scrcpy-linux-x86_64-${SCRCPY_VERSION}.tar.gz | tar -xvzf - -C /tmp && \
+    mv /tmp/scrcpy-linux-x86_64-${SCRCPY_VERSION}/* /tmp/
 
-RUN curl -Lo /tmp/lim https://github.com/limbario/homebrew-tap/releases/latest/download/lim-linux-amd64 && chmod +x /tmp/lim
+RUN curl -Lo /tmp/lim https://github.com/limbario/homebrew-tap/releases/download/${LIM_VERSION}/lim-linux-amd64 && chmod +x /tmp/lim
 
 FROM gcr.io/distroless/cc-debian12:nonroot
 

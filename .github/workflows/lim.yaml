@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version to pull from limbar repo and publish."
+        description: "Version to pull from limbar repo and publish, eg v0.8.8"
         required: true
         type: string
 
@@ -121,7 +121,7 @@ jobs:
           done
       - name: Prepare Windows bundle
         env:
-          SCRCPY_VERSION: v2.7
+          SCRCPY_VERSION: v3.1
         run: |
           #!/usr/bin/env bash
           set -e
@@ -160,7 +160,7 @@ jobs:
           * Download \`lim-windows-amd64.zip\` and extract it to a folder.
           * Open the \`lim-run-android.bat\` to create an Android instance!
 
-          EOF
+          EOF)
 
           gh release create ${{ steps.version.outputs.VERSION }} \
             --title ${{ steps.version.outputs.VERSION }} \
@@ -203,6 +203,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.prep.outputs.tags }}
+          build_args: |
+            LIM_VERSION=${{ inputs.version }}
 
   open-pr:
     runs-on: ubuntu-latest
