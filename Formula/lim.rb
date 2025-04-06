@@ -1,7 +1,7 @@
 class Lim < Formula
   desc "Get remote Android instances for local development and testing"
   homepage "https://limbar.io"
-  version "v0.10.0"
+  version "v0.11.0-preview.2"
   license "Proprietary"
 
   depends_on "limbario/tap/adb"
@@ -18,13 +18,13 @@ class Lim < Formula
       depends_on "limbario/tap/scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-darwin-arm64"
-      sha256 "86907a73b4dd400e68ec1015602125c09770a331edfb12c438dbb19a8539619e" # replace_with_darwin_arm64_sha256
+      sha256 "c8dbe3ec9306e611c2c00e7b243271c3d834b73bfafc0de4094a5486da58d434" # replace_with_darwin_arm64_sha256
     else
       # scrcpy does not yet publish static builds for darwin-amd64
       depends_on "scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-darwin-amd64"
-      sha256 "c366f727b1395decb7e7375608763913801f68dd294e25d0400297231d31db05" # replace_with_darwin_amd64_sha256
+      sha256 "13be4f2e45dd46ab0f49f80152ac84f5c2edbf9bda9da8c9078d05ef72176b78" # replace_with_darwin_amd64_sha256
     end
   end
 
@@ -34,12 +34,12 @@ class Lim < Formula
       depends_on "scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-linux-arm64"
-      sha256 "9f46c0b172797536d86b9ee74aadc00f9e569f120e8b3d340e41eeeaee677379" # replace_with_linux_arm64_sha256
+      sha256 "04429a2f99db33c121aee52704a308118812f3a377ab7918e140c7234214fa52" # replace_with_linux_arm64_sha256
     else
       depends_on "limbario/tap/scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-linux-amd64"
-      sha256 "da2316e7342b3b89d4be08164ffee703c0ccd1c4129b595d100c4880adcb6112" # replace_with_linux_amd64_sha256
+      sha256 "b7c58c39709c52ab0801aa8fc9668afd5334b0da5eb5745c649fc269d4da3c4e" # replace_with_linux_amd64_sha256
     end
   end
 
