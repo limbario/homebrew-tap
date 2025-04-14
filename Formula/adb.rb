@@ -7,12 +7,12 @@ class Adb < Formula
 
   on_macos do
     url "https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
-    sha256 "1820078db90bf21628d257ff052528af1c61bb48f754b3555648f5652fa35d78"
+    sha256 "b241878e6ec20650b041bf715ea05f7d5dc73bd24529464bd9cf68946e3132bd"
   end
 
   on_linux do
     url "https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
-    sha256 "acfdcccb123a8718c46c46c059b2f621140194e5ec1ac9d81715be3d6ab6cd0a"
+    sha256 "0ead642c943ffe79701fccca8f5f1c69c4ce4f43df2eefee553f6ccb27cbfbe8"
   end
 
   def install
