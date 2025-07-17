@@ -1,7 +1,7 @@
 class Lim < Formula
   desc "Get remote Android instances for local development and testing"
   homepage "https://limbar.io"
-  version "v0.10.0"
+  version "v0.11.0"
   license "Proprietary"
 
   depends_on "limbario/tap/adb"
