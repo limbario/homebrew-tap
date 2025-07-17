@@ -18,13 +18,13 @@ class Lim < Formula
       depends_on "limbario/tap/scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-darwin-arm64"
-      sha256 "86907a73b4dd400e68ec1015602125c09770a331edfb12c438dbb19a8539619e" # replace_with_darwin_arm64_sha256
+      sha256 "3b4bc0b899bde9d975d1374727b63d4310cb0ed3e11a3356843031060c2a604c" # replace_with_darwin_arm64_sha256
     else
       # scrcpy does not yet publish static builds for darwin-amd64
       depends_on "scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-darwin-amd64"
-      sha256 "c366f727b1395decb7e7375608763913801f68dd294e25d0400297231d31db05" # replace_with_darwin_amd64_sha256
+      sha256 "e60fb11c75654b7ec9aaa4e08e59da9878e48b30fabe587253bd27bd38a607f3" # replace_with_darwin_amd64_sha256
     end
   end
 
@@ -34,12 +34,12 @@ class Lim < Formula
       depends_on "scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-linux-arm64"
-      sha256 "9f46c0b172797536d86b9ee74aadc00f9e569f120e8b3d340e41eeeaee677379" # replace_with_linux_arm64_sha256
+      sha256 "8e257c9c08e90de7aa67fc357af60fa0319b62d2882504fe7c7e37477e00d5dd" # replace_with_linux_arm64_sha256
     else
       depends_on "limbario/tap/scrcpy"
 
       url "https://github.com/limbario/homebrew-tap/releases/download/#{version}/lim-linux-amd64"
-      sha256 "da2316e7342b3b89d4be08164ffee703c0ccd1c4129b595d100c4880adcb6112" # replace_with_linux_amd64_sha256
+      sha256 "f5f45e4ca7afad2a980108cd28af1c28fd0e61499214a32c88f69a5112a409a9" # replace_with_linux_amd64_sha256
     end
   end
 
